@@ -3,9 +3,12 @@ package net.annedawson.courses
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -37,9 +40,12 @@ fun CoursesApp() {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)  // LazyVerticalGrid is experimental API you must opt into - may be removed in the future
 @Composable
 fun CourseList(courseList: List<Course>, modifier: Modifier = Modifier) {
-    LazyColumn {
+    LazyVerticalGrid(  // to date, LazyVerticalGrid is an experimental API you must opt into - and may be removed in the future
+        cells = GridCells.Fixed(2)
+    ){
         items(courseList) { course ->
             CourseCard(course)
         }
@@ -75,7 +81,10 @@ fun CourseCard(course: Course, modifier: Modifier = Modifier) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_grain),
                         contentDescription = null, // decorative element
-                        modifier = Modifier.padding(start = 16.dp).width(16.dp).height(16.dp)
+                        modifier = Modifier
+                            .padding(start = 16.dp)
+                            .width(16.dp)
+                            .height(16.dp)
                     )
 
                     Text(
