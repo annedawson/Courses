@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,6 +15,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import net.annedawson.courses.data.DataSource
+import net.annedawson.courses.data.DataSource.courses
 import net.annedawson.courses.model.Course
 import net.annedawson.courses.ui.theme.CoursesTheme
 
@@ -20,23 +24,28 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            CoursesTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
-                }
-            }
+            CoursesApp()
         }
     }
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun CoursesApp() {
+    // val context = LocalContext.current
+    CoursesTheme {
+        CourseList(courses) // DataSource courses member
+    }
 }
+
+@Composable
+fun CourseList(courseList: List<Course>, modifier: Modifier = Modifier) {
+    LazyColumn {
+        items(courseList) { course ->
+            CourseCard(course)
+        }
+    }
+}
+
 
 
 @Composable
@@ -80,7 +89,7 @@ fun CourseCard(course: Course, modifier: Modifier = Modifier) {
 
 
             }
-            }
+        }
     }
 }
 
